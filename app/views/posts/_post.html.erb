@@ -5,3 +5,4 @@ Content : <%= post.content %>
 <br>
 Created at : <%= post.created_at %>
 </div>
+<%= link_to "View Comments", post_comments_path(post.id) %>
