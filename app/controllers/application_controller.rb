@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_if_signed_in
     if user_signed_in? && request.path == root_path
-      # redirect_to posts_path
+      redirect_to posts_path
     end
   end
 end
