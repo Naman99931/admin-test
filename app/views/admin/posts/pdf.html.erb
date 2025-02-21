@@ -1,0 +1,19 @@
+<h3 align="center">All Posts </h3>
+<table id="posts_pdf">
+  <tr>
+    <th>Content</th>
+    <th>User Name</th>
+    <th>Posted At</th>
+    <th>Status</th>
+    <th>Comments Count</th>
+  </tr>
+  <% @posts.each do |post| %>
+  <tr>
+    <td><%=post.content%></td>
+    <td><%=post.user.name%></td>
+    <td><%=post.created_at%></td>
+    <td><%=post.status%></td>
+    <td><%=post.comments.count%></td>
+  </tr>
+  <%end%>
+</table>

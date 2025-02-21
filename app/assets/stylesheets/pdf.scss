@@ -1,0 +1,20 @@
+#posts_pdf {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#posts_pdf td,
+#posts_pdf th {
+  border: 3px solid #ddd;
+  border-color: #61777d;
+  padding: 8px;
+}
+
+#posts_pdf th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #98cbd9;
+  color: white;
+}

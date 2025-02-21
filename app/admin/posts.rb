@@ -1,5 +1,5 @@
 ActiveAdmin.register Post do
-  controller do 
+  controller do
     before_action :authorize_admin
 
     def authorize_admin
@@ -7,7 +7,19 @@ ActiveAdmin.register Post do
     end
   end
 
+  controller do
+    def scoped_collection
+      super.includes(:user, :comments)
+    end
 
+    # def scoped_collection
+    #   super.includes(:comments)
+    # end
+  end
+
+  action_item :posts_pdf, only: :index do
+    link_to "Generate PDF", posts_pdf_admin_post_path(Post), method: :put
+  end
 
   action_item :add_to_draft, only: :show do
     link_to "Add to Draft", add_draft_admin_post_path(post), method: :put if post.status == nil
@@ -19,10 +31,11 @@ ActiveAdmin.register Post do
 
   batch_action :publish_post do |ids|
     batch_action_collection.find(ids).each do |post|
-      post.update(status:"publish")
+      post.update(status: "publish")
     end
     redirect_to collection_path, alert: "Published all these posts"
   end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -46,7 +59,7 @@ ActiveAdmin.register Post do
   filter :updated_at
 
   filter :status[0, 1]
-  
+
   actions :all, except: []
 
   index do
@@ -55,11 +68,17 @@ ActiveAdmin.register Post do
 
     id_column
     column :content
+    # column :user
     column :user do |record|
-      record.user.name if record.user
+      record.user.name
     end
+
     column :created_at
     column :status
+    # column :comment
+    column :comment do |p|
+      p.comments.count
+    end
     actions
   end
 
@@ -81,14 +100,24 @@ ActiveAdmin.register Post do
   #   end
   # end
 
-  
+
+  member_action :posts_pdf, method: :put do
+    @posts = Post.all
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string("admin/posts/pdf", layout: "layouts/pdf")
+    )
+
+
+    send_data pdf, filename: "posts_.pdf", type: "application/pdf", disposition: "attachment"
+  end
+
   member_action :add_draft, method: :put do
-    resource.update(status:"draft")
+    resource.update(status: "draft")
     redirect_to resource_path, notice: "Post saved to draft"
   end
 
   member_action :publish_post, method: :put do
-    resource.update(status:"publish")
+    resource.update(status: "publish")
     redirect_to resource_path, notice: "Post Published"
   end
 end

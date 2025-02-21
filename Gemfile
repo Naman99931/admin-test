@@ -55,8 +55,12 @@ end
 
 gem "devise", "~> 4.9"
 
-gem 'activeadmin'
+gem "activeadmin"
 
-gem 'cancancan'
+gem "cancancan"
 
-gem 'sassc-rails'
+gem "sassc-rails"
+
+gem "wicked_pdf"
+
+gem "wkhtmltopdf-binary"
