@@ -58,3 +58,5 @@ gem "devise", "~> 4.9"
 gem 'activeadmin'
 
 gem 'cancancan'
+
+gem 'sassc-rails'
